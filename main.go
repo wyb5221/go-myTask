@@ -9,8 +9,8 @@ import (
 func main() {
 
 	i := 5
-	task1.Test1(i)
-	fmt.Println("调用test1后的值i：", i)
+	f := task1.IsValid("([])")
+	fmt.Println("调用IsValid后的值i：", f)
 	task2.Test2(&i)
 	fmt.Println("调用test2后的值i：", i)
 }
