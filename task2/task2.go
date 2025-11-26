@@ -1,6 +1,9 @@
 package task
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // 供外部包调用，首字母大写
 func Test1(i int) int {
@@ -17,6 +20,45 @@ func Test2(i *int) int {
 	return *i
 }
 
-// func test3([]int) {
-// 	for
-// }
+func Test3(its []int) []int {
+	fmt.Println("初始化数据：", its)
+	for i, v := range its {
+		a := &v
+		fmt.Println("切片中第[", i, "]个元素：", a)
+		*a *= 2
+		fmt.Println("修改后数据：", *a)
+	}
+	fmt.Println("修改后数据：", its)
+	return its
+}
+
+func Test4(its *[]int) {
+	fmt.Println("初始化数据：", its)
+	//循环中的v是切片中元素的副本
+	for i, v := range *its {
+		fmt.Println("切片中第[", i, "]个元素：", v)
+		//直接修改切片中的数据
+		(*its)[i] = v * 2
+	}
+}
+
+func Test5() {
+	go func() {
+		fmt.Print("第一个Goroutine打印：")
+		for i := 1; i < 10; i += 2 {
+			fmt.Print(i, " , ")
+		}
+	}()
+	time.Sleep(2 * time.Second)
+	fmt.Println("")
+	go func() {
+		fmt.Print("第二个Goroutine打印：")
+		for i := 2; i <= 10; i += 2 {
+			fmt.Print(i, " , ")
+		}
+	}()
+}
+
+func Test6() {
+
+}
