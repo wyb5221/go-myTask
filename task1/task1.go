@@ -1,6 +1,10 @@
 package task
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+	"sort"
+)
 
 // 供外部包调用，首字母大写
 func Test1(i int) int {
@@ -10,6 +14,9 @@ func Test1(i int) int {
 	return i
 }
 
+/**
+ * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效
+ */
 func IsValid(s string) bool {
 	if len(s)%2 == 1 {
 		return false
@@ -48,4 +55,130 @@ func IsValid(s string) bool {
 		return false
 	}
 	return true
+}
+
+/**
+ * 编写一个函数来查找字符串数组中的最长公共前缀
+ */
+func LongestCommonPrefix(strs []string) string {
+	result := ""
+	res := []rune(result)
+
+	//获取数组第一个元素
+	s1 := strs[0]
+outter:
+	for i, v := range s1 {
+		t := string(v)
+		for j := 1; j < len(strs); j++ {
+			tr := []rune(strs[j])
+			if i >= len(tr) {
+				break outter
+			}
+			tp := string(tr[i])
+			if tp != t {
+				break outter
+			}
+		}
+		res = append(res, v)
+	}
+	return string(res)
+}
+
+/**
+ * 给定一个表示 大整数 的整数数组 digits，其中 digits[i] 是整数的第 i 位数字。这些数字按从左到右，从最高位到最低位排列。这个大整数不包含任何前导 0。
+ * 将大整数加 1，并返回结果的数字数组。
+ */
+func PlusOne(digits []int) []int {
+	for i := len(digits) - 1; i >= 0; i-- {
+		//获取数组元素
+		t := digits[i]
+		if t != 9 {
+			digits[i] += 1
+			if i == len(digits)-1 {
+				return digits
+			} else {
+				for j := i + 1; j < len(digits); j++ {
+					digits[j] = 0
+				}
+				return digits
+			}
+		}
+	}
+	lg := len(digits) + 1
+	arr := make([]int, lg)
+	arr[0] = 1
+	for a := 1; a < len(digits)+1; a++ {
+		arr[a] = 0
+	}
+	return arr
+}
+
+/**
+ * 删除有序数组中的重复项， 返回删除后数组的新长度
+ */
+func RemoveDuplicates(nums []int) int {
+	fmt.Println("nums：", nums)
+	mp := make(map[int]int)
+	for _, v := range nums {
+		_, exist := mp[v]
+		if !exist {
+			// fmt.Println("map：", len(mp))
+			nums[len(mp)] = v
+			mp[v] = v
+		}
+	}
+	for i := len(mp); i < len(nums); i++ {
+		nums[i] = -1
+	}
+	return len(mp)
+}
+
+/**
+ * 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+ */
+func TwoSum(nums []int, target int) []int {
+	mp := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		a := nums[i]
+		_, exist := mp[target-a]
+		if exist {
+			return []int{mp[target-a], i}
+		} else {
+			mp[a] = i
+		}
+		// for j := i + 1; j < len(nums); j++ {
+		//  b := nums[j]
+		//  if (a + b) == target {
+		//      return []int{i, j}
+		//  }
+		// }
+	}
+	return []int{}
+}
+
+/**
+ * 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间
+ */
+func Merge(intervals [][]int) [][]int {
+	fmt.Println("排序前intervals：", intervals)
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	fmt.Println("排序后intervals：", intervals)
+	arr := [][]int{intervals[0]}
+	for i := 1; i < len(intervals); i++ {
+		s1 := intervals[i]
+		s10 := s1[0]
+		a1 := arr[len(arr)-1][1]
+		//第一个数组的大值大于等于下一个数组的小值，说明有重合
+		if a1 >= s10 {
+			s11 := s1[1]
+			arr[len(arr)-1][1] = int(math.Max(float64(s11), float64(a1)))
+		} else {
+			arr = append(arr, s1)
+		}
+	}
+	fmt.Println("arr：", arr)
+
+	return arr
 }
