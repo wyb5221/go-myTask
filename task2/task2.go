@@ -1,9 +1,29 @@
-package task
+package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
+
+func main() {
+	// i := 5
+	// Test1(i)
+	// fmt.Println("调用Test1后的值i：", i)
+	// Test2(&i)
+	// fmt.Println("调用Test2后的值i：", i)
+
+	// i := []int{1, 5, 9}
+	// Test3(i)
+	// fmt.Println("调用Test3后的值i：", i)
+	// Test4(&i)
+	// fmt.Println("调用Test4后的值i：", i)
+
+	// Test5()
+	// time.Sleep(2 * time.Second)
+
+	Test6()
+}
 
 // 供外部包调用，首字母大写
 func Test1(i int) int {
@@ -24,7 +44,7 @@ func Test3(its []int) []int {
 	fmt.Println("初始化数据：", its)
 	for i, v := range its {
 		a := &v
-		fmt.Println("切片中第[", i, "]个元素：", a)
+		fmt.Println("切片中第[", i, "]个元素：", *a)
 		*a *= 2
 		fmt.Println("修改后数据：", *a)
 	}
@@ -60,5 +80,25 @@ func Test5() {
 }
 
 func Test6() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		fmt.Print("第一个Goroutine打印：")
+		for i := 1; i < 10; i += 2 {
+			fmt.Print(i, " , ")
+		}
+	}()
+	time.Sleep(1 * time.Second)
+	fmt.Println("")
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		fmt.Print("第二个Goroutine打印：")
+		for i := 2; i <= 10; i += 2 {
+			fmt.Print(i, " , ")
+		}
+	}()
 
+	wg.Wait()
 }

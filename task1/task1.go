@@ -1,4 +1,4 @@
-package task
+package main
 
 import (
 	"fmt"
@@ -6,12 +6,52 @@ import (
 	"sort"
 )
 
+func main() {
+	// i := 5
+	// Test1(i)
+	// fmt.Println("调用Test1后的值i：", i)
+
+	// Test2(&i)
+	// fmt.Println("调用Test2后的值i：", i)
+
+	// f := IsValid("()[]{}")
+	// fmt.Println("调用IsValid后的返回：", f)
+
+	// s := []string{"abcd", "abab", "abcde"}
+	// f := LongestCommonPrefix(s)
+	// fmt.Println("调用LongestCommonPrefix后的返回：", f)
+
+	// i := []int{9, 9, 9}
+	// f := PlusOne(i)
+	// fmt.Println("调用PlusOne后的返回：", f)
+
+	// i := []int{1, 3, 1, 5, 3, 9}
+	// f := RemoveDuplicates(i)
+	// fmt.Println("调用RemoveDuplicates后的返回：", f)
+
+	// i := []int{1, 5, 9, 10}
+	// f := TwoSum(i, 11)
+	// fmt.Println("调用TwoSum后的返回：", f)
+
+	i := [][]int{{1, 3}, {5, 8}, {2, 5}, {11, 13}, {10, 15}}
+	f := Merge(i)
+	fmt.Println("调用Merge后的返回：", f)
+}
+
 // 供外部包调用，首字母大写
 func Test1(i int) int {
 	//函数传值，传递的是原始参数的副本，方法中的修改不影响原始数据
 	i += 10
 	fmt.Println("方法中修改入参后：", i)
 	return i
+}
+
+// 供外部包调用，首字母大写
+func Test2(i *int) int {
+	//函数传值，传递的是原始参数的副本，方法中的修改不影响原始数据
+	*i += 10
+	fmt.Println("方法中修改入参后：", *i)
+	return *i
 }
 
 /**

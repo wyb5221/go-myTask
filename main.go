@@ -5,8 +5,8 @@ import (
 	_ "fmt"
 	_ "go-myTask/task1"
 	_ "go-myTask/task2"
-	"go-myTask/task3"
-	"sync"
+	_ "go-myTask/task3"
+	task4 "go-myTask/task4"
 )
 
 func main() {
@@ -45,8 +45,22 @@ func main() {
 	// task3.Ch3(c)
 	// time.Sleep(20 * time.Second)
 	// fmt.Println("main end")
-	c := make(chan int, 100)
-	var wg sync.WaitGroup
-	task3.Ch4(c, wg)
+	// c := make(chan int, 100)
+	// var wg sync.WaitGroup
+	// task3.Ch4(c, wg)
+	// fmt.Println("main end")
+
+	// var wg sync.WaitGroup
+	// task4.Test1(&wg)
+	// fmt.Println("main end")
+	// c := &task4.Counter{0}
+	// task4.Test2(c)
+	// fmt.Println("--调用Test2后的c:", c)
+	// fmt.Println("--调用Test2后的值:", c.GetCount())
+	// fmt.Println("main end")
+
+	//获取结构体指针
+	c := &task4.CounterSync{}
+	task4.Test5(c)
 	fmt.Println("main end")
 }

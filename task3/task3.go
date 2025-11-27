@@ -1,10 +1,42 @@
-package task3
+package main
 
 import (
 	"fmt"
 	"sync"
 	"time"
 )
+
+func main() {
+
+	// r := &(Rectangle{10, 5})
+	// r.Area()
+	// r.Perimeter()
+	// c := &(Circle{10})
+	// c.Area()
+	// c.Perimeter()
+
+	// p := Person{"Golang", 20}
+	// e := &Employee{1, p}
+	// e.PrintInfo()
+
+	// c := make(chan int)
+	// Ch1(c)
+	// time.Sleep(5 * time.Second)
+
+	// c := make(chan int, 200)
+	// c := make(chan int, 2)
+	// Ch2(c)
+	// fmt.Println("main end")
+
+	// c := make(chan int)
+	// Ch3(c)
+	// time.Sleep(15 * time.Second)
+	// fmt.Println("main end")
+
+	c := make(chan int, 100)
+	Ch4(c)
+	fmt.Println("main end")
+}
 
 /**
  * 面向对象
@@ -80,8 +112,8 @@ func Ch1(t chan int) {
 /**
  * sync.WaitGroup同步控制，主进程会等待goroutine 返回后才执行结束
  */
-func Ch2(t chan int, wg sync.WaitGroup) {
-
+func Ch2(t chan int) {
+	var wg sync.WaitGroup
 	//生产者：生成数字并发送到通道
 	//添加任务
 	wg.Add(1)
@@ -132,7 +164,8 @@ func Ch3(t chan int) {
 	}()
 }
 
-func Ch4(t chan int, wg sync.WaitGroup) {
+func Ch4(t chan int) {
+	var wg sync.WaitGroup
 	//生产者：生成数字并发送到通道
 	wg.Add(1)
 	go func() {
