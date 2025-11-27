@@ -33,9 +33,13 @@ func main() {
 	// f := TwoSum(i, 11)
 	// fmt.Println("调用TwoSum后的返回：", f)
 
-	i := [][]int{{1, 3}, {5, 8}, {2, 5}, {11, 13}, {10, 15}}
-	f := Merge(i)
-	fmt.Println("调用Merge后的返回：", f)
+	// i := [][]int{{1, 3}, {5, 8}, {2, 5}, {11, 13}, {10, 15}}
+	// f := Merge(i)
+	// fmt.Println("调用Merge后的返回：", f)
+
+	// lengthOfLongestSubstring("abcabcbb")
+
+	longestPalindrome("abbcccba")
 }
 
 // 供外部包调用，首字母大写
@@ -221,4 +225,71 @@ func Merge(intervals [][]int) [][]int {
 	fmt.Println("arr：", arr)
 
 	return arr
+}
+
+/**
+ * 不含有重复字符的 最长 子串 的长度
+ */
+func lengthOfLongestSubstring(s string) int {
+	mp := map[string]int{}
+	t := 0
+	r := -1
+	for i := 0; i < len(s); i++ {
+		fmt.Println("s:", string(s[i]))
+		//循环到外层说明右重复元素。重复元素为i-1位置
+		if i != 0 {
+			//删除前一个元素
+			delete(mp, string(s[i-1]))
+		}
+		//string(s[r+1])获取最新循环的元素
+		for r+1 < len(s) && mp[string(s[r+1])] == 0 {
+			//当前数据不存在，则添加到map中
+			mp[string(s[r+1])]++
+			r++
+		}
+
+		t = int(math.Max(float64(t), float64(r-i+1)))
+	}
+	fmt.Println("t:", t)
+	return t
+}
+
+// abnade
+func longestPalindrome(s string) string {
+
+	if len(s) < 2 {
+		return s
+	}
+	ns := []string{}
+	t := 0
+	for i := 0; i < len(s); i++ {
+		b := true
+		t1 := string(s[i])
+		//string(s[r+1])获取最新循环的元素
+		for r := i + 1; r < len(s); r++ {
+			if t1 == string(s[r]) {
+				b = false
+				//从start开始，到end结束（不包括end）
+				res := s[i : r+1]
+				fmt.Println("res:", res)
+				ns = append(ns, res)
+				t = int(math.Max(float64(t), float64(len(res))))
+
+			}
+		}
+		if b {
+			ns = append(ns, t1)
+			t = int(math.Max(float64(t), float64(len(t1))))
+		}
+	}
+	fmt.Println("ns:", ns)
+	result := ""
+	for _, v := range ns {
+		if len(v) == t {
+			result = v
+			break
+		}
+	}
+	fmt.Println("result:", result)
+	return result
 }
