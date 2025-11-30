@@ -39,7 +39,10 @@ func main() {
 
 	// lengthOfLongestSubstring("abcabcbb")
 
-	longestPalindrome("abbcccba")
+	// longestPalindrome("abbcccba")
+
+	f := isPalindrome(123321)
+	fmt.Print("f:", f)
 }
 
 // 供外部包调用，首字母大写
@@ -292,4 +295,22 @@ func longestPalindrome(s string) string {
 	}
 	fmt.Println("result:", result)
 	return result
+}
+
+func isPalindrome(x int) bool {
+	switch {
+	case x < 0:
+		return false
+	case x >= 0 && x < 10:
+		return true
+	default:
+		r := 0
+		o := x
+		for x > 0 {
+			r = r*10 + x%10
+			x = x / 10
+		}
+		return r == o
+	}
+
 }
