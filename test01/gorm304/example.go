@@ -73,29 +73,34 @@ func Run(db *gorm.DB) {
 
 	// var user User
 	// db.First(&user)
-	// fmt.Println("--user:", user)
-	//Preload预加载指定的属性
+	// fmt.Println("--user1:", user)
+	// // Preload预加载指定的属性
 	// db.Preload("BillingAddress").Preload("Emails").First(&user)
-	// fmt.Println("--user:", user)
-	//clause.Associations 预加载所有关联属性
+	// fmt.Println("--user2:", user)
+	// // clause.Associations 预加载所有关联属性
 	// db.Preload(clause.Associations).First(&user)
-	// fmt.Println(user)
+	// fmt.Println("--user3:", user)
 
 	//只查询指定的关联属性
-	var langs []Language
-	db.Debug().Model(&User{ID: 1}).Association("Languages").Find(&langs)
-	fmt.Println("--1:", langs)
-	db.Debug().Model(&User{}).Where(&User{ID: 1}).Association("Languages").Find(&langs)
-	fmt.Println("--2:", langs)
+	// var langs []Language
+	// db.Debug().Model(&User{ID: 1}).Association("Languages").Find(&langs)
+	// fmt.Println("--1:", langs)
+	// db.Debug().Where(&User{ID: 1}).Association("Languages").Find(&langs)
+	// fmt.Println("--2:", langs)
+	// db.Debug().Where("id=?", 1).Association("Languages").Find(&langs)
+	// fmt.Println("--3:", langs)
 	//等价于
-	var user User
-	db.Preload("Languages").First(&user)
-	fmt.Println("--3:", user.Languages)
+	// var user User
+	// db.Preload("Languages").First(&user)
+	// fmt.Println("--5:", user.Languages)
 
 	// var user User
-	// db.Preload(clause.Associations).First(&user)
+	// //先查询user属性
+	// db.Preload(clause.Associations).First(&user, 1)
 	// // user.BillingAddress = Address{Address1: "111"}
-	// user.BillingAddress.Address1 = "444"
+	// //在修改user属性的值
+	// user.BillingAddress.Address1 = "99999"
+	// //Updates不会更新关联表的非外键字段
 	// // db.Debug().Updates(&user)
 	// db.Debug().Session(&gorm.Session{FullSaveAssociations: true}).Updates(&user)
 
@@ -104,22 +109,28 @@ func Run(db *gorm.DB) {
 	// 一对多更新
 	// var emails []Email
 	// db.Model(&User{ID: 1}).Association("Emails").Find(&emails)
-	// // emails[0].Email = "1111@example.com"
-	// // db.Debug().Session(&gorm.Session{FullSaveAssociations: true}).Model(&User{ID: 1}).Association("Emails").Replace(emails)
+	// emails[0].Email = "1111@example.com"
+	// db.Debug().Session(&gorm.Session{FullSaveAssociations: true}).Model(&User{ID: 1}).Association("Emails").Replace(emails)
 	// db.Debug().Model(&User{ID: 1}).Association("Emails").Replace(&Email{Email: "11@11.com"}, &Email{Email: "22@22.com"})
 
 	// 多对多更新
-	// var langZH, langEN Language
-	// db.First(&langZH, "name = ?", "ZH")
-	// db.First(&langEN, "name = ?", "EN")
-	// // db.Debug().Model(&User{ID: 1}).Association("Languages").Replace(&langZH) // 必须是引用
-	// // db.Debug().Model(&User{ID: 1}).Association("Languages").Delete(langZH)
-	// // db.Debug().Model(&User{ID: 1}).Association("Languages").Append(&langEN) // 必须是引用
-	// // db.Debug().Model(&User{ID: 1}).Association("Languages").Append(&Language{Name: "FR"})
+	var langZH, langEN Language
+	db.First(&langZH, "name = ?", "ZH")
+	db.First(&langEN, "name = ?", "EN")
+	fmt.Println("langZH:", langZH)
+	fmt.Println("langEN:", langEN)
+	//Replace替换
+	// db.Debug().Model(&User{ID: 1}).Association("Languages").Replace(&langZH) // 必须是引用
+	// db.Debug().Model(&User{ID: 1}).Association("Languages").Delete(langZH)
+	//Append 添加
+	// db.Debug().Model(&User{ID: 1}).Association("Languages").Append(&langEN) // 必须是引用
+	//Append 添加一个没有的数据
+	// db.Debug().Model(&User{ID: 1}).Association("Languages").Append(&Language{Name: "FR"})
+	//Clear清空
 	// db.Debug().Model(&User{ID: 1}).Association("Languages").Clear()
 
 	// 删除关联
-	// db.Debug().Select("Emails", "Languages", "BillingAddress").Delete(&User{ID: 1})
+	db.Debug().Select("Emails", "Languages", "BillingAddress").Delete(&User{ID: 1})
 }
 
 func main() {
