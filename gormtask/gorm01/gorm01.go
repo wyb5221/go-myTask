@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -80,16 +79,16 @@ func delByAge(db *gorm.DB, age int) {
 	db.Debug().Where("age>?", age).Delete(&s)
 }
 
-func main() {
-	fmt.Println("---开始---")
-	db, err := gorm.Open(mysql.Open("root:123456@tcp(127.0.0.1:3306)/gorm?charset=utf8mb4&parseTime=True&loc=Local"))
-	if err != nil {
-		panic(err)
-	}
-	// CreateTable(db)
-	// Insert(db)
-	// BtaInsert(db)
-	// QueryByAge(db, 21)
-	// UpdateByName(db, "张三", "四年级2")
-	delByAge(db, 21)
-}
+// func main() {
+// 	fmt.Println("---开始---")
+// 	db, err := gorm.Open(mysql.Open("root:123456@tcp(127.0.0.1:3306)/gorm?charset=utf8mb4&parseTime=True&loc=Local"))
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	// CreateTable(db)
+// 	// Insert(db)
+// 	// BtaInsert(db)
+// 	// QueryByAge(db, 21)
+// 	// UpdateByName(db, "张三", "四年级2")
+// 	delByAge(db, 21)
+// }
