@@ -25,6 +25,7 @@ func test01(arr []int, target int) int {
 			end = mid - 1
 		}
 	}
+
 	return -1
 }
 
@@ -41,5 +42,6 @@ func tes02(arr []int, target int, start int, end int) int {
 	} else {
 		start = mid + 1
 	}
+
 	return tes02(arr, target, start, end)
 }
