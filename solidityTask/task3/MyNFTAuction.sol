@@ -117,6 +117,9 @@ contract MyNFTAuction is
             endTime: block.timestamp + (duration * 1 days),
             active: true
         });
+        //转移NFT到合约
+        nft.safeTransferFrom(msg.sender, address(this), tokenId);
+
         emit AuctionCreated(
             auctionCounter, 
             msg.sender, 
